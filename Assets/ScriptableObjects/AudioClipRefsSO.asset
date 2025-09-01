@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecc03302d8894574984e509f92190dda, type: 3}
+  m_Name: AudioClipRefsSO
+  m_EditorClassIdentifier: Assembly-CSharp::AudioClipRefsSO
+  bounce: {fileID: 8300000, guid: cc3652bab66706c469a94ae63c9e4355, type: 3}
+  tick: {fileID: 8300000, guid: 22e1ae75f54f5c84fb1dfe0b48746e18, type: 3}
+  levelUp: {fileID: 8300000, guid: a93cdd350f150d94c9121dfaeadcc95e, type: 3}
