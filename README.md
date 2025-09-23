@@ -1,5 +1,5 @@
 # HelixJumpClone
-A clone of the popular hyper-casual game Helix Jump
+A mechanic-simplified clone of the popular hypercasual game “Helix Jump”.
 
 <img width="506" height="875" alt="image" src="https://github.com/user-attachments/assets/d8f60717-0839-4cc0-9ed9-f959f2284c13" />
 
