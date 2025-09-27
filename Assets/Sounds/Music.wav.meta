@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e6b6923d1e562354c84923d0d8fc2025
+guid: eb7f10105313640a18ce7926041a4d76
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
@@ -20,3 +20,10 @@ AudioImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 262740
+  packageName: Casual & Relaxing Game Music
+  packageVersion: 1.0
+  assetPath: Assets/Casual & Relaxing Game Music/Darkness.wav
+  uploadId: 606135
