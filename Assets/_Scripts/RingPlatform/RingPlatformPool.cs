@@ -16,8 +16,6 @@ public class RingPlatformPool : MonoBehaviour
     private float spawnPosition;
     private int spawnAmount;
 
-    public event EventHandler OnGoalReached;
-
     private void Awake()
     {
         if (Instance == null)
@@ -29,21 +27,7 @@ public class RingPlatformPool : MonoBehaviour
         SpawnRingPlatforms();
     }
 
-    private void Start()
-    {
-        Ball.Instance.OnCollided += Ball_OnCollided;
-    }
-
-    private void Ball_OnCollided(object sender, Ball.OnCollidedEventArgs e)
-    {
-        if (e.ringPlatformTransform == ringPlatformGoalTransform)
-        {
-            OnGoalReached?.Invoke(this, EventArgs.Empty);
-            ResetPool();
-        }
-    }
-
-    private void ResetPool()
+    public void ResetPool()
     {
         foreach (Transform ringPlatformTransform in transform)
         {
@@ -89,10 +73,5 @@ public class RingPlatformPool : MonoBehaviour
     public int GetSpawnAmount()
     {
         return spawnAmount;
-    }
-
-    private void OnDestroy()
-    {
-        Ball.Instance.OnCollided -= Ball_OnCollided;
     }
 }

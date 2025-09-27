@@ -118,6 +118,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tap"",
+                    ""type"": ""Button"",
+                    ""id"": ""9683c5f4-ba44-47fc-b91f-b51953342161"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -153,6 +162,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""MouseLeftButtonPress"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dd45c792-fb51-4e44-a787-ac694cfa0bc1"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0eed07b4-e63d-49ad-933f-1ab054dcec21"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +195,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_MouseRotate = m_Player.FindAction("MouseRotate", throwIfNotFound: true);
         m_Player_MouseLeftButtonPress = m_Player.FindAction("MouseLeftButtonPress", throwIfNotFound: true);
+        m_Player_Tap = m_Player.FindAction("Tap", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -247,6 +279,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_MouseRotate;
     private readonly InputAction m_Player_MouseLeftButtonPress;
+    private readonly InputAction m_Player_Tap;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -270,6 +303,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/MouseLeftButtonPress".
         /// </summary>
         public InputAction @MouseLeftButtonPress => m_Wrapper.m_Player_MouseLeftButtonPress;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Tap".
+        /// </summary>
+        public InputAction @Tap => m_Wrapper.m_Player_Tap;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -305,6 +342,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MouseLeftButtonPress.started += instance.OnMouseLeftButtonPress;
             @MouseLeftButtonPress.performed += instance.OnMouseLeftButtonPress;
             @MouseLeftButtonPress.canceled += instance.OnMouseLeftButtonPress;
+            @Tap.started += instance.OnTap;
+            @Tap.performed += instance.OnTap;
+            @Tap.canceled += instance.OnTap;
         }
 
         /// <summary>
@@ -325,6 +365,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MouseLeftButtonPress.started -= instance.OnMouseLeftButtonPress;
             @MouseLeftButtonPress.performed -= instance.OnMouseLeftButtonPress;
             @MouseLeftButtonPress.canceled -= instance.OnMouseLeftButtonPress;
+            @Tap.started -= instance.OnTap;
+            @Tap.performed -= instance.OnTap;
+            @Tap.canceled -= instance.OnTap;
         }
 
         /// <summary>
@@ -386,5 +429,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMouseLeftButtonPress(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tap" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTap(InputAction.CallbackContext context);
     }
 }

@@ -17,10 +17,10 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        RingPlatformPool.Instance.OnGoalReached += RingPlatformPool_OnGoalReached;
+        Ball.Instance.OnGoalReached += Ball_OnGoalReached;
     }
 
-    private void RingPlatformPool_OnGoalReached(object sender, System.EventArgs e)
+    private void Ball_OnGoalReached(object sender, System.EventArgs e)
     {
         level++;
         OnLevelChanged?.Invoke(this, EventArgs.Empty);
@@ -30,9 +30,8 @@ public class LevelManager : MonoBehaviour
     {
         return level;
     }
-
     private void OnDestroy()
     {
-        RingPlatformPool.Instance.OnGoalReached -= RingPlatformPool_OnGoalReached;
+        Ball.Instance.OnGoalReached -= Ball_OnGoalReached;
     }
 }

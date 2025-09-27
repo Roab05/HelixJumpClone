@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "PlayerInputActions",
     "maps": [
         {
@@ -27,6 +28,15 @@
                     "name": "MouseLeftButtonPress",
                     "type": "Button",
                     "id": "65d459ff-3237-4d2f-8761-4c672efce0e4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Tap",
+                    "type": "Button",
+                    "id": "9683c5f4-ba44-47fc-b91f-b51953342161",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -64,6 +74,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "MouseLeftButtonPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dd45c792-fb51-4e44-a787-ac694cfa0bc1",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0eed07b4-e63d-49ad-933f-1ab054dcec21",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

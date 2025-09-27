@@ -2,54 +2,70 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager Instance { get; private set; }
+
     [SerializeField] private AudioClipRefsSO audioClipRefsSO;
-    [SerializeField] private AudioSource tickAudioSource;
+    [SerializeField] private AudioSource audioSource;
 
     private float tickPitchIncrease = 0.1f;
     private float tickPitchDecrease = 0.2f;
     private float maxTickPitch = 2.4f;
 
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        audioSource = GetComponent<AudioSource>();
+    }
+
     private void Start()
     {
-        tickAudioSource.clip = audioClipRefsSO.tick;
-        tickAudioSource.volume = 0.5f;
-        tickAudioSource.spatialBlend = 0f; // 2D sound
+        audioSource.spatialBlend = 0f; // 2D sound
 
         Ball.Instance.OnCollided += Ball_OnCollided;
         Ball.Instance.OnRingPlatformPassed += Ball_OnRingPlatformPassed;
-        RingPlatformPool.Instance.OnGoalReached += RingPlatformPool_OnGoalReached;
+        Ball.Instance.OnGoalReached += Ball_OnGoalReached;
     }
 
-    private void RingPlatformPool_OnGoalReached(object sender, System.EventArgs e)
+    private void Ball_OnGoalReached(object sender, System.EventArgs e)
     {
-        AudioSource.PlayClipAtPoint(audioClipRefsSO.levelUp, Camera.main.transform.position);
+        PlaySound(audioClipRefsSO.levelUp);
     }
 
     private void Ball_OnRingPlatformPassed(object sender, System.EventArgs e)
     {
-        PlayTickSound();
+        PlaySound(audioClipRefsSO.tick);
     }
 
     private void Ball_OnCollided(object sender, Ball.OnCollidedEventArgs e)
     {
-        tickAudioSource.Stop();
-        ResetTickPitch();
-        AudioSource.PlayClipAtPoint(audioClipRefsSO.bounce, Camera.main.transform.position, 0.2f);
+        audioSource.Stop();
+        PlaySound(audioClipRefsSO.bounce);
     }
 
-    private void PlayTickSound()
+    private void PlaySound(AudioClip sound)
     {
-        tickAudioSource.Play();
-        tickAudioSource.pitch += tickPitchIncrease;
-        if (tickAudioSource.pitch > maxTickPitch)
+        if (sound != audioClipRefsSO.tick)
+            ResetPitch();
+        audioSource.clip = sound;
+        audioSource.Play();
+        audioSource.pitch += tickPitchIncrease;
+        if (audioSource.pitch > maxTickPitch)
         {
-            tickAudioSource.pitch = maxTickPitch - tickPitchDecrease;
+            audioSource.pitch = maxTickPitch - tickPitchDecrease;
         }
     }
 
-    private void ResetTickPitch()
+    private void ResetPitch()
     {
-        if (tickAudioSource.pitch > 1f)
-            tickAudioSource.pitch = 1f;
+        audioSource.pitch = 1f;
+    }
+    public void Mute()
+    {
+        audioSource.mute = true;
+    }
+    public void Unmute()
+    {
+        audioSource.mute = false;
     }
 }

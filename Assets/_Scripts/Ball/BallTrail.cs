@@ -18,10 +18,10 @@ public class BallTrail : MonoBehaviour
 
     private void Start()
     {
-        RingPlatformPool.Instance.OnGoalReached += RingPlatformPool_OnGoalReached;
+        Ball.Instance.OnGoalReached += Ball_OnGoalReached;
     }
 
-    private void RingPlatformPool_OnGoalReached(object sender, System.EventArgs e)
+    private void Ball_OnGoalReached(object sender, System.EventArgs e)
     {
         StartCoroutine(TrailChange());
     }

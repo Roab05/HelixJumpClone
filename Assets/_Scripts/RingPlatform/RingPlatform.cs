@@ -20,10 +20,10 @@ public class RingPlatform : MonoBehaviour
         boxTrigger = GetComponentInChildren<BoxCollider>();
 
         startPositionY = transform.position.y;
-        RingPlatformPool.Instance.OnGoalReached += RingPlatformPool_OnGoalReached;
+        Ball.Instance.OnGoalReached += Ball_OnGoalReached;
     }
 
-    private void RingPlatformPool_OnGoalReached(object sender, System.EventArgs e)
+    private void Ball_OnGoalReached(object sender, System.EventArgs e)
     {
         SetInitialState();
     }
@@ -71,10 +71,5 @@ public class RingPlatform : MonoBehaviour
         boxTrigger.enabled = true;
         isMoveUp = false;
         transform.position = new Vector3(transform.position.x, startPositionY, transform.position.z);
-    }
-
-    private void OnDestroy()
-    {
-        RingPlatformPool.Instance.OnGoalReached -= RingPlatformPool_OnGoalReached;
     }
 }
