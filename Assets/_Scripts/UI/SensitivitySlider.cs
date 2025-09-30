@@ -19,12 +19,10 @@ public class SensitivitySlider : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     public void OnBeginDrag(PointerEventData eventData)
     {
         isHandleHeld = true;
-        Debug.Log("Handle held");
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         isHandleHeld = false;
-        Debug.Log("Handle released");
     }
 }

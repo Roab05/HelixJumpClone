@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RingPlatformPool : MonoBehaviour
@@ -13,53 +14,76 @@ public class RingPlatformPool : MonoBehaviour
 
     private Transform[] ringPlatformVisualPrefs;
 
-    private float spawnPosition;
-    private int spawnAmount;
+    private int totalSpawnAmount = 50;
+    private int ringPlatformStartTransformPositionY1 = 31;
+    private int ringPlatformStartTransformPositionY2 = 42;
+
+    public event EventHandler OnPoolReset;
 
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
+    }
 
-        spawnPosition = ringPlatformStartTransform.position.y - 1f;
-        spawnAmount = Mathf.RoundToInt(Mathf.Abs(ringPlatformStartTransform.position.y - ringPlatformGoalTransform.position.y - 1f));
+    private void Start()
+    {
+        Ball.Instance.OnGoalReached += Ball_OnGoalReached;
 
         SpawnRingPlatforms();
+        ResetPool();
+    }
+
+    private void Ball_OnGoalReached(object sender, EventArgs e)
+    {
+        ResetPool();
     }
 
     public void ResetPool()
     {
+        ringPlatformStartTransform.position = new Vector3(0f, UnityEngine.Random.Range(ringPlatformStartTransformPositionY1, ringPlatformStartTransformPositionY2), 0f);
+
+        List<int> difficultyList = DifficultyManager.Instance.GetPlatformDifficultyList();
+        int difficultyIndex = 0;
+
         foreach (Transform ringPlatformTransform in transform)
         {
             if (ringPlatformTransform == ringPlatformGoalTransform 
              || ringPlatformTransform == ringPlatformStartTransform)
                 continue;
 
-            ringPlatformTransform.gameObject.SetActive(true);
-            RingPlatform ringPlatform = ringPlatformTransform.GetComponent<RingPlatform>();
+            if ((int)ringPlatformTransform.position.y < (int)ringPlatformStartTransform.position.y)
+            {
+                ringPlatformTransform.gameObject.SetActive(true);
+                RingPlatform ringPlatform = ringPlatformTransform.GetComponent<RingPlatform>();
 
-            var newVisualTransform = Instantiate(GetRingPlatformVisual(), ringPlatformTransform);
-            var newVisual = newVisualTransform.GetComponent<RingPlatformVisual>();
+                var newVisualTransform = Instantiate(GetRingPlatformVisual(difficultyList[difficultyIndex]), ringPlatformTransform);
+                var newVisual = newVisualTransform.GetComponent<RingPlatformVisual>();
 
-            ringPlatform.SetNewVisual(newVisual);
+                ringPlatform.SetNewVisual(newVisual);
+
+                ++difficultyIndex;
+            }
         }
+
+        OnPoolReset?.Invoke(this, EventArgs.Empty);
     }
 
     private void SpawnRingPlatforms()
     {
-        for (int spawnIndex = 0; spawnIndex < spawnAmount; ++spawnIndex)
+        var spawnPosition = (int)ringPlatformGoalTransform.position.y + 1;
+        for (int spawnIndex = 0; spawnIndex < totalSpawnAmount; ++spawnIndex)
         {
             Transform ringPlatformTransform = Instantiate(ringPlatformPrefab, transform);
-            Instantiate(GetRingPlatformVisual(), ringPlatformTransform);
             ringPlatformTransform.position = new Vector3(0f, spawnPosition, 0f);
             ringPlatformTransform.localEulerAngles = new Vector3(0f, UnityEngine.Random.Range(0f, 360f), 0f);
-            spawnPosition -= 1;
+            ringPlatformTransform.gameObject.SetActive(false);
+            spawnPosition += 1;
         }
     }
 
-    private Transform GetRingPlatformVisual()
+    private Transform GetRingPlatformVisual(int difficulty)
     {
-        int difficulty = DifficultyManager.GetDifficulty();
         if (difficulty == 0)
             ringPlatformVisualPrefs = ringPlatformVisualPrefsSO.RingPlatformVisualPrefsEasy;
         else if (difficulty == 1)
@@ -70,8 +94,17 @@ public class RingPlatformPool : MonoBehaviour
         return ringPlatformVisualPrefs[UnityEngine.Random.Range(0, ringPlatformVisualPrefs.Length)];
     }
 
-    public int GetSpawnAmount()
+    public int GetPlatformAmount()
     {
-        return spawnAmount;
+        return (int)ringPlatformStartTransform.position.y - (int)ringPlatformGoalTransform.position.y - 1;
+    }
+
+    public Transform GetRingPlatformStartTransform()
+    {
+        return ringPlatformStartTransform;
+    }
+    public Transform GetRingPlatformGoalTransform()
+    {
+        return ringPlatformGoalTransform;
     }
 }

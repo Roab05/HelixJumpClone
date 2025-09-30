@@ -57,7 +57,9 @@ public class VirtualCamera : MonoBehaviour
     {
         TurnOffPositionDamping();
 
-        yield return null; // Wait 1 frame
+        // wait for 2 frames
+        yield return null;
+        yield return null;
 
         TurnOnPositionDamping();
     }

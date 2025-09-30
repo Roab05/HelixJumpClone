@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class MusicButton : MonoBehaviour
 {
-    private bool isSoundEnabled = true;
     [SerializeField]
     private Button button;
 
@@ -14,21 +13,36 @@ public class MusicButton : MonoBehaviour
 
     private void Start()
     {
-        button.onClick.AddListener(Toggle);
-    }
-
-    public void Toggle()
-    {
-        if (isSoundEnabled)
+        if (MusicManager.Instance.IsMuted())
         {
-            button.GetComponent<Image>().color = Color.gray;
-            MusicManager.Instance.Mute();
+            TurnOffMusic();
         }
         else
         {
-            button.GetComponent<Image>().color = Color.white;
-            MusicManager.Instance.Unmute();
+            TurnOnMusic();
         }
-        isSoundEnabled = !isSoundEnabled;
+        button.onClick.AddListener(Toggle);
+    }
+
+    private void Toggle()
+    {
+        if (!MusicManager.Instance.IsMuted())
+        {
+            TurnOffMusic();
+        }
+        else
+        {
+            TurnOnMusic();
+        }
+    }
+    private void TurnOffMusic()
+    {
+        button.GetComponent<Image>().color = Color.gray;
+        MusicManager.Instance.Mute();
+    }
+    private void TurnOnMusic()
+    {
+        button.GetComponent<Image>().color = Color.white;
+        MusicManager.Instance.Unmute();
     }
 }

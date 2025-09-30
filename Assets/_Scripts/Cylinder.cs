@@ -4,7 +4,6 @@ public class Cylinder : MonoBehaviour
 {
     private const string SENSITIVITY_KEY = "Sensitivity";
 
-    private float waitingToStartRotateY = 0.1f;
     private float rotateY;
 
     [SerializeField] private float rotateSensitivityMultiplier;
@@ -24,19 +23,13 @@ public class Cylinder : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.IsWaitingToStart())
+        Vector2 inputDeltaVector = GameInput.Instance.GetInputDeltaVector();
+        rotateY = -inputDeltaVector.x * (rotateSensitivityMultiplier * rotateSensitivityNormalized);
+        if (GameInput.Instance.IsPressed())
         {
-            rotateY = waitingToStartRotateY;
+            rotateY *= mousePressedMultiplier;
         }
-        else
-        {
-            Vector2 inputDeltaVector = GameInput.Instance.GetInputDeltaVector();
-            rotateY = -inputDeltaVector.x * (rotateSensitivityMultiplier * rotateSensitivityNormalized);
-            if (GameInput.Instance.IsPressed())
-            {
-                rotateY *= mousePressedMultiplier;
-            }
-        }
+        
         transform.Rotate(0f, rotateY, 0f);
     }
     public void SetRotateSensitivityNormalized(float value)

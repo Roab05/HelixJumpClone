@@ -9,6 +9,8 @@ public class OptionsUI : MonoBehaviour
 
 
     private const string SENSITIVITY_KEY = "Sensitivity";
+    private const string GEAR_SPIN_FRONT = "GearSpinFront";
+    private const string GEAR_SPIN_BACK = "GearSpinBack";
 
     [SerializeField]
     private Slider sensitivitySlider;
@@ -50,12 +52,12 @@ public class OptionsUI : MonoBehaviour
         if (isUIShown)
         {
             // hide ui
-            animator.SetTrigger("HideUI");
+            animator.Play(GEAR_SPIN_BACK);
         }
         else
         {
             // show ui
-            animator.SetTrigger("ShowUI");
+            animator.Play(GEAR_SPIN_FRONT);
         }
         isUIShown = !isUIShown;
     }

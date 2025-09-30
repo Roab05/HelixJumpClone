@@ -40,7 +40,7 @@ public class PlayingUI : MonoBehaviour
 
     private void Ball_OnRingPlatformPassed(object sender, System.EventArgs e)
     {
-        targetFillAmount += 1f / RingPlatformPool.Instance.GetSpawnAmount();
+        targetFillAmount += 1f / RingPlatformPool.Instance.GetPlatformAmount();
     }
     private void LevelManager_OnLevelChanged(object sender, System.EventArgs e)
     {

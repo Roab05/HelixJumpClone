@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    private const string SOUND_MUTE_KEY = "SoundMute";
+
     public static SoundManager Instance { get; private set; }
 
     [SerializeField] private AudioClipRefsSO audioClipRefsSO;
@@ -16,6 +19,7 @@ public class SoundManager : MonoBehaviour
         if (Instance == null)
             Instance = this;
         audioSource = GetComponent<AudioSource>();
+        audioSource.mute = PlayerPrefs.GetInt(SOUND_MUTE_KEY, 0) == 1;
     }
 
     private void Start()
@@ -25,8 +29,13 @@ public class SoundManager : MonoBehaviour
         Ball.Instance.OnCollided += Ball_OnCollided;
         Ball.Instance.OnRingPlatformPassed += Ball_OnRingPlatformPassed;
         Ball.Instance.OnGoalReached += Ball_OnGoalReached;
+        Ball.Instance.OnDead += Ball_OnDead;
     }
 
+    private void Ball_OnDead(object sender, System.EventArgs e)
+    {
+        PlaySound(audioClipRefsSO.dead);
+    }
     private void Ball_OnGoalReached(object sender, System.EventArgs e)
     {
         PlaySound(audioClipRefsSO.levelUp);
@@ -63,9 +72,15 @@ public class SoundManager : MonoBehaviour
     public void Mute()
     {
         audioSource.mute = true;
+        PlayerPrefs.SetInt(SOUND_MUTE_KEY, 1);
     }
     public void Unmute()
     {
         audioSource.mute = false;
+        PlayerPrefs.SetInt(SOUND_MUTE_KEY, 0);
+    }
+    public bool IsMuted()
+    {
+        return audioSource.mute;
     }
 }

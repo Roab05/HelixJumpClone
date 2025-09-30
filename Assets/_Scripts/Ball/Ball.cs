@@ -5,12 +5,15 @@ using UnityEngine.SceneManagement;
 public class Ball : MonoBehaviour
 {
     private const string SCORE_TRIGGER_TAG = "ScoreTrigger";
-    private const string RING_PLATFORM_TAG = "RingPlatform";
     private const string RING_PLATFORM_ERROR_TAG = "RingPlatformError";
 
     public static Ball Instance { get; private set; }
 
-    [SerializeField] private Transform ringPlatformGoalTransform;
+    [SerializeField] private float jumpVelocity;
+    [SerializeField] private float maxFallingVelocity;
+
+    private Rigidbody ballRigidbody;
+    private SphereCollider sphereCollider;
 
     public event EventHandler<OnCollidedEventArgs> OnCollided;
     public class OnCollidedEventArgs : EventArgs 
@@ -22,25 +25,28 @@ public class Ball : MonoBehaviour
     public event EventHandler OnGoalReached;
     public event EventHandler OnDead;
 
-    private Rigidbody ballRigidbody;
-
-    [SerializeField] private float jumpVelocity;
-    [SerializeField] private float maxFallingVelocity;
-    private float startPositionY;
-
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
-        ballRigidbody = GetComponent<Rigidbody>();
 
-        startPositionY = transform.position.y;
+        ballRigidbody = GetComponent<Rigidbody>();
+        sphereCollider = GetComponent<SphereCollider>();
+
         ballRigidbody.useGravity = false;
     }
 
     private void Start()
     {
-        GameManager.Instance.OnStateChanged += GameManager_OnStateChanged; ;
+        GameManager.Instance.OnStateChanged += GameManager_OnStateChanged;
+        RingPlatformPool.Instance.OnPoolReset += RingPlatformPool_OnPoolReset;
+
+        SetBallInitPosition();
+    }
+
+    private void RingPlatformPool_OnPoolReset(object sender, EventArgs e)
+    {
+        SetBallInitPosition();
     }
 
     private void GameManager_OnStateChanged(object sender, EventArgs e)
@@ -69,12 +75,17 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        // if game over, ignore collisions and bounces
+        if (GameManager.Instance.IsGameOver())
+        {
+            return;
+        }
 
         var collidedTransform = collision.transform.parent;
 
         if (StreakManager.Instance.IsStreakActive())
         {
-            if (collidedTransform != ringPlatformGoalTransform)
+            if (collidedTransform != RingPlatformPool.Instance.GetRingPlatformGoalTransform())
                 NotifyRingPlatformPassed(collision.collider);
         }
         else
@@ -83,6 +94,10 @@ public class Ball : MonoBehaviour
             if (collision.gameObject.CompareTag(RING_PLATFORM_ERROR_TAG))
             {
                 OnDead?.Invoke(this, EventArgs.Empty);
+
+                SetBallDead();
+
+                return;
             }
         }
 
@@ -90,7 +105,7 @@ public class Ball : MonoBehaviour
         ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
 
 
-        if (collidedTransform != ringPlatformGoalTransform)
+        if (collidedTransform != RingPlatformPool.Instance.GetRingPlatformGoalTransform())
         {
             OnCollided?.Invoke(this, new OnCollidedEventArgs
             {
@@ -100,10 +115,11 @@ public class Ball : MonoBehaviour
         }
         else
         {
+            // goal reached
             OnGoalReached?.Invoke(this, EventArgs.Empty);
-            RingPlatformPool.Instance.ResetPool();
+
             // Reset ball position
-            transform.position = new Vector3(transform.position.x, startPositionY, transform.position.z);
+            SetBallInitPosition();
         }
 
         StreakManager.Instance.DeactivateStreak();
@@ -111,6 +127,12 @@ public class Ball : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // if game over, ignore score triggers
+        if (GameManager.Instance.IsGameOver())
+        {
+            return;
+        }
+
         if (other.gameObject.CompareTag(SCORE_TRIGGER_TAG))
         {
             NotifyRingPlatformPassed(other);
@@ -118,7 +140,6 @@ public class Ball : MonoBehaviour
         }
 
     }
-
     private void NotifyRingPlatformPassed(Collider other)
     {
         OnRingPlatformPassed?.Invoke(this, EventArgs.Empty);
@@ -130,5 +151,29 @@ public class Ball : MonoBehaviour
             ringPlatform.SetPassedState();
             ringPlatform.GetRingPlatformVisual().SetTransparent();
         }
+    }
+    private void SetBallDead()
+    {
+        // free all constraints
+        ballRigidbody.constraints = RigidbodyConstraints.None;
+
+        // re-adjust collider
+        sphereCollider.radius = 0.1f;
+        sphereCollider.center = Vector3.zero;
+
+        // Launch ball at random direction
+        float randomAngleFlat = UnityEngine.Random.Range(0f, 360f);
+        float launchSpeed = 2f;
+        Vector3 randomDirection = new Vector3(Mathf.Cos(randomAngleFlat), 1f, Mathf.Sin(randomAngleFlat)).normalized;
+        ballRigidbody.linearVelocity = randomDirection * launchSpeed;
+    }
+    private void SetBallInitPosition()
+    {
+        ballRigidbody.position = new Vector3(transform.position.x,
+        (int)RingPlatformPool.Instance.GetRingPlatformStartTransform().position.y + 1,
+        transform.position.z);
+
+        if (GameManager.Instance.IsPlaying())
+            ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
     }
 }

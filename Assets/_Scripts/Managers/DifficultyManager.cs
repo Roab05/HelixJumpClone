@@ -1,29 +1,47 @@
+using System.Collections.Generic;
 using UnityEngine;
-public class DifficultyManager
+public class DifficultyManager : MonoBehaviour
 {
-    public static int GetDifficulty()
+    public static DifficultyManager Instance { get; private set; }
+
+    private void OnEnable()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
+
+    private float baseEasyRate = 0.8f;
+    public List<int> GetPlatformDifficultyList()
     {
         int level = LevelManager.Instance.GetLevel();
+        int platformCount = RingPlatformPool.Instance.GetPlatformAmount();
+        float easyRate = Mathf.Max(0.2f, baseEasyRate - (level - 1) * 0.04f);
 
-        // Weights decrease for easy, increase for medium/hard as level increases
-        float easyWeight = Mathf.Max(20f, 80f - level * 1.15f);    // Easy starts high, decreases
-        float mediumWeight = Mathf.Min(50f, 10f + level * 1.15f);    // Medium increases
-        float hardWeight = Mathf.Min(30f, 10f + level * 0.65f);           // Hard increases
+        int easyCount = Mathf.RoundToInt(platformCount * easyRate);
+        int mediumCount = Mathf.RoundToInt(platformCount * ((1f - easyRate) * (2/3f)));
+        int hardCount = platformCount - easyCount - mediumCount;
 
-        float totalWeight = easyWeight + mediumWeight + hardWeight;
-        float rand = Random.value * totalWeight;
+        List<int> difficultyList = new();
+        for (int i = 0; i < easyCount; i++)
+            difficultyList.Add(0);
+        for (int i = 0; i < mediumCount; i++)
+            difficultyList.Add(1);
+        for (int i = 0; i < hardCount; i++)
+            difficultyList.Add(2);
 
-        if (rand < easyWeight)        
+        // Shuffle the list
+        for (int i = platformCount - 1; i > 0; i--)
         {
-            return 0; // Easy
+            int j = Random.Range(0, i + 1);
+            (difficultyList[i], difficultyList[j]) = (difficultyList[j], difficultyList[i]);
         }
-        else if (rand < easyWeight + mediumWeight)
-        {
-            return 1; // Medium
-        }
-        else
-        {
-            return 2; // Hard
-        }
+
+        return difficultyList;
+    }
+
+    public float GetPlatformSpinSpeed()
+    {
+        var level = LevelManager.Instance.GetLevel();
+        return Random.Range(13f, 14f + (level - 1) * 1.75f);
     }
 }

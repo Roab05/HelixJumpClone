@@ -15,3 +15,4 @@ MonoBehaviour:
   bounce: {fileID: 8300000, guid: df3423191f65b7f4bacb46b57ae81f11, type: 3}
   tick: {fileID: 8300000, guid: 22e1ae75f54f5c84fb1dfe0b48746e18, type: 3}
   levelUp: {fileID: 8300000, guid: f6846547609917645a61e499657b8634, type: 3}
+  dead: {fileID: 8300000, guid: 89e778817cd24514cb5a4b3661260641, type: 3}

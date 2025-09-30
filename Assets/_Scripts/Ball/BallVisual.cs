@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BallVisual : MonoBehaviour
 {
-    private const string BALL_BOUNCE_TRIGGER = "BallBounce";
+    private const string BALL_BOUNCE = "BallBounceAnimationClip";
 
     [SerializeField] private Material ballMaterial;
     [SerializeField] private Material ballStreakMaterial;
@@ -37,7 +37,7 @@ public class BallVisual : MonoBehaviour
 
     private void Ball_OnCollided(object sender, System.EventArgs e)
     {
-        animator.SetTrigger(BALL_BOUNCE_TRIGGER);
+        animator.Play(BALL_BOUNCE, 0, 0f);
     }
 
     private void OnDestroy()

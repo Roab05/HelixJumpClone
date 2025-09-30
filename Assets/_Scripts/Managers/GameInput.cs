@@ -42,7 +42,7 @@ public class GameInput : MonoBehaviour
     }
     public Vector2 GetInputDeltaVector()
     {
-        if (GameManager.Instance.IsWaitingToStart() || SensitivitySlider.Instance.IsHandleHeld())
+        if (!GameManager.Instance.IsPlaying() || SensitivitySlider.Instance.IsHandleHeld())
         {
             return Vector2.zero;
         }

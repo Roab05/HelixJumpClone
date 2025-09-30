@@ -6,5 +6,5 @@ public class AudioClipRefsSO : ScriptableObject
     [SerializeField] public AudioClip bounce;
     [SerializeField] public AudioClip tick;
     [SerializeField] public AudioClip levelUp;
-    
+    [SerializeField] public AudioClip dead;
 }
