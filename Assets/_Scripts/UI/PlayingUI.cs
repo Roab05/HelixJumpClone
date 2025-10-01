@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class PlayingUI : MonoBehaviour
 {
     [SerializeField] private Transform scoreTextTransform;
+    [SerializeField] private Transform levelProgressTransform;
     [SerializeField] private Image levelProgressImage;
     [SerializeField] private TextMeshProUGUI currentLevelText;
     [SerializeField] private TextMeshProUGUI nextLevelText;
@@ -57,11 +58,13 @@ public class PlayingUI : MonoBehaviour
 
     private void Show()
     {
-       gameObject.SetActive(true);
+        scoreTextTransform.gameObject.SetActive(true);
+        levelProgressTransform.gameObject.SetActive(true);
     }
     private void Hide()
     {
-        gameObject.SetActive(false);
+        scoreTextTransform.gameObject.SetActive(false);
+        levelProgressTransform.gameObject.SetActive(false);
     }
 
     private void OnDisable()

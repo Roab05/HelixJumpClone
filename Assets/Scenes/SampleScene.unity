@@ -15364,6 +15364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayingUI
   scoreTextTransform: {fileID: 561361454}
+  levelProgressTransform: {fileID: 1669252066}
   levelProgressImage: {fileID: 806715454}
   currentLevelText: {fileID: 579309882}
   nextLevelText: {fileID: 294841913}
