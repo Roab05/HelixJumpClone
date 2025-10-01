@@ -10,9 +10,9 @@ public class MusicButton : MonoBehaviour
     {
         button.GetComponent<Image>().color = Color.white;
     }
-
     private void Start()
     {
+        button.onClick.AddListener(Toggle);
         if (MusicManager.Instance.IsMuted())
         {
             TurnOffMusic();
@@ -21,7 +21,6 @@ public class MusicButton : MonoBehaviour
         {
             TurnOnMusic();
         }
-        button.onClick.AddListener(Toggle);
     }
 
     private void Toggle()
@@ -44,5 +43,10 @@ public class MusicButton : MonoBehaviour
     {
         button.GetComponent<Image>().color = Color.white;
         MusicManager.Instance.Unmute();
+    }
+
+    private void OnDisable()
+    {
+        button.onClick.RemoveAllListeners();
     }
 }

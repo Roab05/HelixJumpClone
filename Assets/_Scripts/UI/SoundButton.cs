@@ -10,9 +10,9 @@ public class SoundButton : MonoBehaviour
     {
         button.GetComponent<Image>().color = Color.white;
     }
-
     private void Start()
     {
+        button.onClick.AddListener(Toggle);
         if (SoundManager.Instance.IsMuted())
         {
             TurnOffSound();
@@ -21,7 +21,6 @@ public class SoundButton : MonoBehaviour
         {
             TurnOnSound();
         }
-        button.onClick.AddListener(Toggle);
     }
 
     private void Toggle()
@@ -45,5 +44,9 @@ public class SoundButton : MonoBehaviour
     {
         button.GetComponent<Image>().color = Color.gray;
         SoundManager.Instance.Mute();
+    }
+    private void OnDisable()
+    {
+        button.onClick.RemoveAllListeners();
     }
 }

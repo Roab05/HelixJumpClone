@@ -17,11 +17,11 @@ public class VirtualCamera : MonoBehaviour
         if (Instance == null)
             Instance = this;
         cinemachineFollowPositionDamping = cinemachineFollow.TrackerSettings.PositionDamping;
+        transform.eulerAngles = targetEulerAngles;
     }
 
     private void Start()
-    {
-        transform.eulerAngles = targetEulerAngles;
+    {        
         Ball.Instance.OnGoalReached += Ball_OnGoalReached;
         GameManager.Instance.OnStateChanged += GameManager_OnStateChanged;
     }

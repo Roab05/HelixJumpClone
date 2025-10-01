@@ -4,7 +4,7 @@ public class DifficultyManager : MonoBehaviour
 {
     public static DifficultyManager Instance { get; private set; }
 
-    private void OnEnable()
+    private void Awake()
     {
         if (Instance == null)
             Instance = this;
@@ -42,6 +42,6 @@ public class DifficultyManager : MonoBehaviour
     public float GetPlatformSpinSpeed()
     {
         var level = LevelManager.Instance.GetLevel();
-        return Random.Range(13f, 14f + (level - 1) * 1.75f);
+        return Random.Range(20f, 21f + (level - 1) * 1.75f);
     }
 }

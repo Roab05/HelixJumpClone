@@ -64,10 +64,12 @@ public class PlayingUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         ScoreManager.Instance.OnScoreChanged -= ScoreManager_OnScoreChanged;
-        LevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;
         Ball.Instance.OnRingPlatformPassed -= Ball_OnRingPlatformPassed;
+        LevelManager.Instance.OnLevelChanged -= LevelManager_OnLevelChanged;
+
+        GameManager.Instance.OnStateChanged -= GameManager_OnStateChanged;
     }
 }

@@ -40,8 +40,9 @@ public class BallVisual : MonoBehaviour
         animator.Play(BALL_BOUNCE, 0, 0f);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
+        StreakManager.Instance.OnStreakChanged -= StreakManager_OnStreakChanged;
         Ball.Instance.OnCollided -= Ball_OnCollided;
     }
 }

@@ -24,4 +24,9 @@ public class BallFire : MonoBehaviour
             ballFire.Stop();
         }
     }
+
+    private void OnDisable()
+    {
+        StreakManager.Instance.OnStreakChanged -= StreakManager_OnStreakChanged;
+    }
 }

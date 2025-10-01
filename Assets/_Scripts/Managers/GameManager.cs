@@ -30,11 +30,9 @@ public class GameManager : MonoBehaviour
 
         Application.targetFrameRate = 90;
     }
-
     private void Start()
     {
         Ball.Instance.OnDead += Ball_OnDead;
-
         GameInput.Instance.OnTap += GameInput_OnTap;
 
         OnStateChanged?.Invoke(this, EventArgs.Empty);

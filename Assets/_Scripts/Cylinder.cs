@@ -10,9 +10,13 @@ public class Cylinder : MonoBehaviour
     [SerializeField] private float rotateSensitivityNormalized;
     private float mousePressedMultiplier = 2.25f;
 
-    private void Start()
+    private void Awake()
     {
         rotateSensitivityNormalized = PlayerPrefs.GetFloat(SENSITIVITY_KEY, 0.5f);
+    }
+
+    private void Start() 
+    {
         OptionsUI.Instance.OnSensitivityChanged += OptionsUI_OnSensitivityChanged;
     }
 
@@ -35,5 +39,9 @@ public class Cylinder : MonoBehaviour
     public void SetRotateSensitivityNormalized(float value)
     {
         rotateSensitivityNormalized = value;
+    }
+    private void OnDisable()
+    {
+        OptionsUI.Instance.OnSensitivityChanged -= OptionsUI_OnSensitivityChanged;
     }
 }

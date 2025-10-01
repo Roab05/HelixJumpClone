@@ -15,12 +15,15 @@ public class RingPlatform : MonoBehaviour
     private BoxCollider boxTrigger;
     private RingPlatformVisual ringPlatformVisual;
 
-    private void Start()
+    private void Awake()
     {
         ringPlatformVisual = GetComponentInChildren<RingPlatformVisual>();
         boxTrigger = GetComponentInChildren<BoxCollider>();
-
+    }
+    private void Start()
+    {
         startPositionY = transform.position.y;
+
         Ball.Instance.OnGoalReached += Ball_OnGoalReached;
 
         SetInitialState();
@@ -84,5 +87,9 @@ public class RingPlatform : MonoBehaviour
         if (rand == 2)
             return Random.Range(0, 2) == 0 ? -1 : 1;
         return 0;
+    }
+    private void OnDisable()
+    {
+        Ball.Instance.OnGoalReached -= Ball_OnGoalReached;
     }
 }

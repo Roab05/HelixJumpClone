@@ -25,7 +25,6 @@ public class RingPlatformPool : MonoBehaviour
         if (Instance == null)
             Instance = this;
     }
-
     private void Start()
     {
         Ball.Instance.OnGoalReached += Ball_OnGoalReached;
@@ -106,5 +105,9 @@ public class RingPlatformPool : MonoBehaviour
     public Transform GetRingPlatformGoalTransform()
     {
         return ringPlatformGoalTransform;
+    }
+    private void OnDisable()
+    {
+        Ball.Instance.OnGoalReached -= Ball_OnGoalReached;
     }
 }

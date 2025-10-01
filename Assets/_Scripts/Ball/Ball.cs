@@ -31,13 +31,12 @@ public class Ball : MonoBehaviour
             Instance = this;
 
         ballRigidbody = GetComponent<Rigidbody>();
-        sphereCollider = GetComponent<SphereCollider>();
-
-        ballRigidbody.useGravity = false;
+        sphereCollider = GetComponent<SphereCollider>(); 
     }
-
     private void Start()
     {
+        ballRigidbody.useGravity = false;
+
         GameManager.Instance.OnStateChanged += GameManager_OnStateChanged;
         RingPlatformPool.Instance.OnPoolReset += RingPlatformPool_OnPoolReset;
 
@@ -75,8 +74,8 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // if game over, ignore collisions and bounces
-        if (GameManager.Instance.IsGameOver())
+        // if not playing, ignore collisions and bounces
+        if (!GameManager.Instance.IsPlaying())
         {
             return;
         }
@@ -127,8 +126,8 @@ public class Ball : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // if game over, ignore score triggers
-        if (GameManager.Instance.IsGameOver())
+        // if not playing, ignore score triggers
+        if (!GameManager.Instance.IsPlaying())
         {
             return;
         }
@@ -175,5 +174,11 @@ public class Ball : MonoBehaviour
 
         if (GameManager.Instance.IsPlaying())
             ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnStateChanged -= GameManager_OnStateChanged;
+        RingPlatformPool.Instance.OnPoolReset -= RingPlatformPool_OnPoolReset;
     }
 }

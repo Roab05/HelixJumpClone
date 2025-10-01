@@ -17,4 +17,8 @@ public class BallSplash : MonoBehaviour
     {
         ballSplash.Play();
     }
+    private void OnDisable()
+    {
+        Ball.Instance.OnCollided -= Ball_OnCollided;
+    }
 }

@@ -15,9 +15,19 @@ public class GameInput : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         playerInputActions = new PlayerInputActions();
-
+    }
+    private void Start()
+    {
         playerInputActions.Enable();
 
         playerInputActions.Player.MouseLeftButtonPress.performed += ctx => isMouseLeftButtonPressed = 1;
@@ -60,7 +70,7 @@ public class GameInput : MonoBehaviour
     {
         return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
     }
-    private void OnDestroy()
+    private void OnDisable()
     {
         playerInputActions.Player.Disable();
         playerInputActions.Dispose();

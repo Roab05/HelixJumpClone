@@ -34,16 +34,18 @@ public class BallTrail : MonoBehaviour
 
         ClearTrail();
     }
-    
     private void ClearTrail()
     {
         trailRenderer.Clear();
     }
-
     public void SetColor(Material material)
     {
         trailRenderer.startColor = material.color;
         trailRenderer.endColor = material.color;
     }
-    
+    private void OnDisable()
+    {
+        Ball.Instance.OnGoalReached -= Ball_OnGoalReached;
+    }
+
 }

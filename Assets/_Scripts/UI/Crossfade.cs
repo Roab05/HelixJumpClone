@@ -5,6 +5,8 @@ public class Crossfade : MonoBehaviour
     private const string FADE_START = "FadeStart";
 
     public static Crossfade Instance { get; private set; }
+    [SerializeField]
+    private Transform blackImageTransform;
 
     private Animator animator;
 
@@ -13,6 +15,8 @@ public class Crossfade : MonoBehaviour
         if (Instance == null)
             Instance = this;
         animator = GetComponent<Animator>();
+
+        blackImageTransform.gameObject.SetActive(true);
     }
 
     private void Start()
@@ -26,5 +30,10 @@ public class Crossfade : MonoBehaviour
         {
             animator.Play(FADE_START);
         }
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnStateChanged -= GameManager_OnStateChanged;
     }
 }
