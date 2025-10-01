@@ -17,6 +17,7 @@ public class BallPaint : MonoBehaviour
 
     private void Start()
     {
+
         Ball.Instance.OnCollided += Ball_OnCollided;
     }
 
@@ -42,7 +43,7 @@ public class BallPaint : MonoBehaviour
         ballPaintImage.transform.position = e.collidedPosition + Vector3.up * 0.01f;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         Ball.Instance.OnCollided -= Ball_OnCollided;
     }

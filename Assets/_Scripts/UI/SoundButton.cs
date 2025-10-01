@@ -45,7 +45,7 @@ public class SoundButton : MonoBehaviour
         button.GetComponent<Image>().color = Color.gray;
         SoundManager.Instance.Mute();
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         button.onClick.RemoveAllListeners();
     }

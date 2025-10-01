@@ -40,7 +40,7 @@ public class Cylinder : MonoBehaviour
     {
         rotateSensitivityNormalized = value;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         OptionsUI.Instance.OnSensitivityChanged -= OptionsUI_OnSensitivityChanged;
     }

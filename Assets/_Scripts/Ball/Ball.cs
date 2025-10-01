@@ -16,8 +16,8 @@ public class Ball : MonoBehaviour
     private SphereCollider sphereCollider;
 
     public event EventHandler<OnCollidedEventArgs> OnCollided;
-    public class OnCollidedEventArgs : EventArgs 
-    { 
+    public class OnCollidedEventArgs : EventArgs
+    {
         public Transform ringPlatformTransform;
         public Vector3 collidedPosition;
     }
@@ -31,12 +31,13 @@ public class Ball : MonoBehaviour
             Instance = this;
 
         ballRigidbody = GetComponent<Rigidbody>();
-        sphereCollider = GetComponent<SphereCollider>(); 
+        sphereCollider = GetComponent<SphereCollider>();
+
+        ballRigidbody.useGravity = false;
     }
+
     private void Start()
     {
-        ballRigidbody.useGravity = false;
-
         GameManager.Instance.OnStateChanged += GameManager_OnStateChanged;
         RingPlatformPool.Instance.OnPoolReset += RingPlatformPool_OnPoolReset;
 
@@ -82,45 +83,54 @@ public class Ball : MonoBehaviour
 
         var collidedTransform = collision.transform.parent;
 
-        if (StreakManager.Instance.IsStreakActive())
-        {
-            if (collidedTransform != RingPlatformPool.Instance.GetRingPlatformGoalTransform())
-                NotifyRingPlatformPassed(collision.collider);
-        }
-        else
-        {
-            // Collide obstacles
-            if (collision.gameObject.CompareTag(RING_PLATFORM_ERROR_TAG))
-            {
-                OnDead?.Invoke(this, EventArgs.Empty);
-
-                SetBallDead();
-
-                return;
-            }
-        }
-
-        // Ball bounce
-        ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
-
-
-        if (collidedTransform != RingPlatformPool.Instance.GetRingPlatformGoalTransform())
-        {
-            OnCollided?.Invoke(this, new OnCollidedEventArgs
-            {
-                ringPlatformTransform = collision.transform.parent,
-                collidedPosition = collision.contacts[0].point
-            });
-        }
-        else
+        if (collidedTransform == RingPlatformPool.Instance.GetRingPlatformGoalTransform())
         {
             // goal reached
             OnGoalReached?.Invoke(this, EventArgs.Empty);
 
             // Reset ball position
             SetBallInitPosition();
+
+            StreakManager.Instance.DeactivateStreak();
+            return;
         }
 
+        if (StreakManager.Instance.IsStreakActive())
+        {
+            NotifyRingPlatformPassed(collision.collider);
+            OnCollided?.Invoke(this, new OnCollidedEventArgs
+            {
+                ringPlatformTransform = collision.transform.parent,
+                collidedPosition = collision.contacts[0].point
+            });
+
+            // Ball bounce
+            ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
+
+            StreakManager.Instance.DeactivateStreak();
+            
+            return;
+        }
+
+            // Collide obstacles
+        if (collision.gameObject.CompareTag(RING_PLATFORM_ERROR_TAG))
+        {
+            OnDead?.Invoke(this, EventArgs.Empty);
+
+            SetBallDead();
+
+            StreakManager.Instance.DeactivateStreak();
+            return;
+        }
+
+        // Ball bounce
+        ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
+
+        OnCollided?.Invoke(this, new OnCollidedEventArgs
+        {
+            ringPlatformTransform = collision.transform.parent,
+            collidedPosition = collision.contacts[0].point
+        });
         StreakManager.Instance.DeactivateStreak();
     }
 
@@ -174,11 +184,5 @@ public class Ball : MonoBehaviour
 
         if (GameManager.Instance.IsPlaying())
             ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
-    }
-
-    private void OnDisable()
-    {
-        GameManager.Instance.OnStateChanged -= GameManager_OnStateChanged;
-        RingPlatformPool.Instance.OnPoolReset -= RingPlatformPool_OnPoolReset;
     }
 }

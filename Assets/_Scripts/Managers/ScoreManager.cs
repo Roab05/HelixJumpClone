@@ -6,8 +6,10 @@ public class ScoreManager : MonoBehaviour
     private const string HIGH_SCORE_KEY = "HighScore";
 
     public static ScoreManager Instance { get; private set; }
+    public bool isNewBest = false;
+
     private int score;
-    private int highScore; 
+    private int bestScore; 
 
     public event EventHandler OnScoreChanged;
 
@@ -16,7 +18,7 @@ public class ScoreManager : MonoBehaviour
         if (Instance == null)
             Instance = this;
         score = 0;
-        highScore = PlayerPrefs.GetInt(HIGH_SCORE_KEY, 0);
+        bestScore = PlayerPrefs.GetInt(HIGH_SCORE_KEY, 0);
     }
 
     private void Start()
@@ -27,10 +29,12 @@ public class ScoreManager : MonoBehaviour
 
     private void Ball_OnDead(object sender, EventArgs e)
     {
-        highScore = Math.Max(highScore, score);
-        score = 0;
-        PlayerPrefs.SetInt(HIGH_SCORE_KEY, highScore);
-        OnScoreChanged?.Invoke(this, EventArgs.Empty);
+        if (score > bestScore)
+        {
+            bestScore = score;
+            isNewBest = true;
+        }
+        PlayerPrefs.SetInt(HIGH_SCORE_KEY, bestScore);
     }
 
     private void Ball_OnRingPlatformPassed(object sender, EventArgs e)
@@ -43,9 +47,11 @@ public class ScoreManager : MonoBehaviour
     {
         return score;
     }
-    public int GetHighScore()
+    public string GetBestScore()
     {
-        return highScore;
+        if (isNewBest)
+            return "NEW BEST SCORE!";
+        return $"BEST SCORE\n{bestScore}";
     }
 
     private void OnDestroy()

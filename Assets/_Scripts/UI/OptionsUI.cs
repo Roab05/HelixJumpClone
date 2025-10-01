@@ -65,7 +65,7 @@ public class OptionsUI : MonoBehaviour
     {
         return sensitivitySlider.value;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         sensitivitySlider.onValueChanged.RemoveAllListeners();
     }

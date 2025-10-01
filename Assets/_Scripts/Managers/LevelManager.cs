@@ -6,9 +6,10 @@ public class LevelManager : MonoBehaviour
     private const string HIGH_LEVEL_KEY = "HighLevel";
 
     public static LevelManager Instance { get; private set; }
+    public bool isNewBest = false;
 
     private int level;
-    private int highLevel;
+    private int bestLevel;
 
     public event EventHandler OnLevelChanged;
 
@@ -18,7 +19,7 @@ public class LevelManager : MonoBehaviour
             Instance = this;
 
         level = 1;
-        highLevel = PlayerPrefs.GetInt(HIGH_LEVEL_KEY, 1);
+        bestLevel = PlayerPrefs.GetInt(HIGH_LEVEL_KEY, 0);
     }
 
     private void Start()
@@ -29,10 +30,12 @@ public class LevelManager : MonoBehaviour
 
     private void Ball_OnDead(object sender, EventArgs e)
     {
-        highLevel = Mathf.Max(highLevel, level);
-        level = 1;
-        PlayerPrefs.SetInt(HIGH_LEVEL_KEY, highLevel);
-        OnLevelChanged?.Invoke(this, EventArgs.Empty);
+        if (level > bestLevel)
+        {
+            bestLevel = level;
+            isNewBest = true;
+        }
+        PlayerPrefs.SetInt(HIGH_LEVEL_KEY, bestLevel);
     }
 
     private void Ball_OnGoalReached(object sender, EventArgs e)
@@ -45,9 +48,11 @@ public class LevelManager : MonoBehaviour
     {
         return level;
     }
-    public int GetHighLevel()
+    public string GetBestLevel()
     {
-        return highLevel;
+        if (isNewBest)
+            return "NEW BEST LEVEL!";
+        return $"BEST LEVEL\n{bestLevel}";
     }
 
     private void OnDestroy()

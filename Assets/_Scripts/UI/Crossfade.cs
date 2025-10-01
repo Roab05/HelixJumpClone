@@ -32,7 +32,7 @@ public class Crossfade : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         GameManager.Instance.OnStateChanged -= GameManager_OnStateChanged;
     }

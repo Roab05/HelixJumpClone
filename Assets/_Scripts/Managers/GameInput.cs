@@ -70,7 +70,7 @@ public class GameInput : MonoBehaviour
     {
         return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         playerInputActions.Player.Disable();
         playerInputActions.Dispose();

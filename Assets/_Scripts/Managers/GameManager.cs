@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     {
         WaitingToStart,
         Playing,
+        BallDead,
         GameOver,
         Crossfade
     }
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     public event EventHandler OnStateChanged;
 
-    private float gameOverTime = 1.5f;
+    private float gameOverTime = 2f;
     private float crossfadeTime = 0.4f;
 
     private void Awake()
@@ -45,11 +46,16 @@ public class GameManager : MonoBehaviour
             state = State.Playing;
             OnStateChanged?.Invoke(this, EventArgs.Empty);
         }
+        else if (state == State.GameOver)
+        {
+            state = State.Crossfade;
+            OnStateChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     private void Ball_OnDead(object sender, EventArgs e)
     {
-        state = State.GameOver;
+        state = State.BallDead;
         OnStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -61,13 +67,15 @@ public class GameManager : MonoBehaviour
                 break;
             case State.Playing:
                 break;
-            case State.GameOver:
+            case State.BallDead:
                 gameOverTime -= Time.deltaTime;
                 if (gameOverTime <= 0f)
                 {
-                    state = State.Crossfade;
+                    state = State.GameOver;
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
                 }
+                break;
+            case State.GameOver:
                 break;
             case State.Crossfade:
                 crossfadeTime -= Time.deltaTime;
@@ -86,6 +94,10 @@ public class GameManager : MonoBehaviour
     public bool IsPlaying()
     {
         return state == State.Playing;
+    }
+    public bool IsBallDead()
+    {
+        return state == State.BallDead;
     }
     public bool IsGameOver()
     {

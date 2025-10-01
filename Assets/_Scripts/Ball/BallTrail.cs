@@ -43,7 +43,7 @@ public class BallTrail : MonoBehaviour
         trailRenderer.startColor = material.color;
         trailRenderer.endColor = material.color;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         Ball.Instance.OnGoalReached -= Ball_OnGoalReached;
     }

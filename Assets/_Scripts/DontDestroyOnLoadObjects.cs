@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class Clouds : MonoBehaviour
+public class DontDestroyOnLoadObjects : MonoBehaviour
 {
-    private static Clouds Instance;
+    public static DontDestroyOnLoadObjects Instance { get; private set; }
+
     private void Awake()
     {
         if (Instance == null)

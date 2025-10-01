@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class PlayingUI : MonoBehaviour
 {
-    [SerializeField] private Transform scoreTextTransform;
-    [SerializeField] private Transform levelProgressTransform;
+    [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private Image levelProgressImage;
     [SerializeField] private TextMeshProUGUI currentLevelText;
     [SerializeField] private TextMeshProUGUI nextLevelText;
+
     private float targetFillAmount = 0f;
 
     private void Start()
@@ -36,7 +36,7 @@ public class PlayingUI : MonoBehaviour
 
     private void ScoreManager_OnScoreChanged(object sender, System.EventArgs e)
     {
-        scoreTextTransform.GetComponent<TextMeshProUGUI>().text = ScoreManager.Instance.GetScore().ToString();
+        scoreText.text = ScoreManager.Instance.GetScore().ToString();
     }
 
     private void Ball_OnRingPlatformPassed(object sender, System.EventArgs e)
@@ -58,16 +58,14 @@ public class PlayingUI : MonoBehaviour
 
     private void Show()
     {
-        scoreTextTransform.gameObject.SetActive(true);
-        levelProgressTransform.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
     private void Hide()
     {
-        scoreTextTransform.gameObject.SetActive(false);
-        levelProgressTransform.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         ScoreManager.Instance.OnScoreChanged -= ScoreManager_OnScoreChanged;
         Ball.Instance.OnRingPlatformPassed -= Ball_OnRingPlatformPassed;

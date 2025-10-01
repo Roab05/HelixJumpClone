@@ -45,7 +45,7 @@ public class MusicButton : MonoBehaviour
         MusicManager.Instance.Unmute();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         button.onClick.RemoveAllListeners();
     }

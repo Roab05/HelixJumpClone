@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +24,7 @@ public class RingPlatformPool : MonoBehaviour
         if (Instance == null)
             Instance = this;
     }
+
     private void Start()
     {
         Ball.Instance.OnGoalReached += Ball_OnGoalReached;
@@ -47,7 +47,7 @@ public class RingPlatformPool : MonoBehaviour
 
         foreach (Transform ringPlatformTransform in transform)
         {
-            if (ringPlatformTransform == ringPlatformGoalTransform 
+            if (ringPlatformTransform == ringPlatformGoalTransform
              || ringPlatformTransform == ringPlatformStartTransform)
                 continue;
 
@@ -62,6 +62,10 @@ public class RingPlatformPool : MonoBehaviour
                 ringPlatform.SetNewVisual(newVisual);
 
                 ++difficultyIndex;
+            }
+            else
+            {
+                ringPlatformTransform.gameObject.SetActive(false);
             }
         }
 
@@ -106,7 +110,7 @@ public class RingPlatformPool : MonoBehaviour
     {
         return ringPlatformGoalTransform;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         Ball.Instance.OnGoalReached -= Ball_OnGoalReached;
     }

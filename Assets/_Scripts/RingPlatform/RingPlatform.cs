@@ -22,8 +22,9 @@ public class RingPlatform : MonoBehaviour
     }
     private void Start()
     {
-        startPositionY = transform.position.y;
+        
 
+        startPositionY = transform.position.y;
         Ball.Instance.OnGoalReached += Ball_OnGoalReached;
 
         SetInitialState();
@@ -88,7 +89,7 @@ public class RingPlatform : MonoBehaviour
             return Random.Range(0, 2) == 0 ? -1 : 1;
         return 0;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         Ball.Instance.OnGoalReached -= Ball_OnGoalReached;
     }
