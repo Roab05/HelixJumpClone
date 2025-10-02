@@ -10460,6 +10460,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RingPlatformVisual_Hard3
       objectReference: {fileID: 0}
+    - target: {fileID: 3652533386956680381, guid: 98f8a5954df3d3140ae209c15d9596fe, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4248726634649962384, guid: 98f8a5954df3d3140ae209c15d9596fe, type: 3}
       propertyPath: m_SelectedEditorRenderState
       value: 2
@@ -10556,6 +10560,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RingPlatformVisual_Error1 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8423941007176010667, guid: 127c85ca6aae8c8488390a08156fcc0b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10630,6 +10638,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RingPlatformVisual_Error1
       objectReference: {fileID: 0}
+    - target: {fileID: 8423941007176010667, guid: 127c85ca6aae8c8488390a08156fcc0b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10691,6 +10703,10 @@ PrefabInstance:
     - target: {fileID: 8423941007176010667, guid: d16f7451cb0edf34ea53615231ece86c, type: 3}
       propertyPath: m_Name
       value: RingPlatformVisual_Error3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8423941007176010667, guid: d16f7451cb0edf34ea53615231ece86c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10766,6 +10782,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RingPlatformVisual_Error2
       objectReference: {fileID: 0}
+    - target: {fileID: 8423941007176010667, guid: 9b204cbe809c5aa4b8a45bea991a3ac3, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10840,6 +10860,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RingPlatformVisual_Error1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8423941007176010667, guid: 127c85ca6aae8c8488390a08156fcc0b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10913,6 +10937,10 @@ PrefabInstance:
     - target: {fileID: 8423941007176010667, guid: 127c85ca6aae8c8488390a08156fcc0b, type: 3}
       propertyPath: m_Name
       value: RingPlatformVisual_Error1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8423941007176010667, guid: 127c85ca6aae8c8488390a08156fcc0b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

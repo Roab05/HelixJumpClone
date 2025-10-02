@@ -17236,6 +17236,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RingPlatformVisual_Goal
       objectReference: {fileID: 0}
+    - target: {fileID: 3652533386956680381, guid: 98f8a5954df3d3140ae209c15d9596fe, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4248726634649962384, guid: 98f8a5954df3d3140ae209c15d9596fe, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

@@ -10,15 +10,15 @@ public class DifficultyManager : MonoBehaviour
             Instance = this;
     }
 
-    private float baseEasyRate = 0.8f;
+    private float baseEasyRate = 0.9f;
     public List<int> GetPlatformDifficultyList()
     {
         int level = LevelManager.Instance.GetLevel();
         int platformCount = RingPlatformPool.Instance.GetPlatformAmount();
-        float easyRate = Mathf.Max(0.2f, baseEasyRate - (level - 1) * 0.04f);
+        float easyRate = Mathf.Max(0.1f, baseEasyRate - (level - 1) * 0.035f);
 
         int easyCount = Mathf.RoundToInt(platformCount * easyRate);
-        int mediumCount = Mathf.RoundToInt(platformCount * ((1f - easyRate) * (2/3f)));
+        int mediumCount = Mathf.RoundToInt(platformCount * ((1f - easyRate) * (3/4f)));
         int hardCount = platformCount - easyCount - mediumCount;
 
         List<int> difficultyList = new();

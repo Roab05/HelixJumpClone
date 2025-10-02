@@ -29,7 +29,9 @@ public class GameManager : MonoBehaviour
         }
         state = State.WaitingToStart;
 
-        Application.targetFrameRate = 90;
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+
     }
     private void Start()
     {

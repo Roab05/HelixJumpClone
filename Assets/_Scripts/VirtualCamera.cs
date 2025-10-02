@@ -57,15 +57,13 @@ public class VirtualCamera : MonoBehaviour
     {
         TurnOffPositionDamping();
 
-        // wait for 2 frames
-        yield return null;
-        yield return null;
+        yield return new WaitForSecondsRealtime(24f * Time.deltaTime);
 
         TurnOnPositionDamping();
     }
     public void TurnOffPositionDamping()
     {
-        cinemachineFollow.TrackerSettings.PositionDamping = Vector3.zero;
+        cinemachineFollow.TrackerSettings.PositionDamping = new Vector3(0, 0.5f, 0.5f);
     }
 
     public void TurnOnPositionDamping()

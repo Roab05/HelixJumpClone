@@ -16,7 +16,7 @@ GameObject:
   m_TagString: ScoreTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &7344433232391901244
 Transform:
@@ -254,6 +254,10 @@ PrefabInstance:
     - target: {fileID: 2433467990287007672, guid: a05a6d5bbc5c13b40afefb6f49ce2c1e, type: 3}
       propertyPath: m_Name
       value: BallPaintImage
+      objectReference: {fileID: 0}
+    - target: {fileID: 2433467990287007672, guid: a05a6d5bbc5c13b40afefb6f49ce2c1e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3222667830615266456, guid: a05a6d5bbc5c13b40afefb6f49ce2c1e, type: 3}
       propertyPath: m_Pivot.x

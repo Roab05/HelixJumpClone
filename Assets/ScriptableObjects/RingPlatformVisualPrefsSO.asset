@@ -26,7 +26,7 @@ MonoBehaviour:
   - {fileID: 2118849622511223198, guid: 94a4244322387f44990e7c339342bbf5, type: 3}
   - {fileID: 2118849622511223198, guid: 8d51df5566af44642b3124263c4adfa2, type: 3}
   RingPlatformVisualPrefsHard:
-  - {fileID: 2118849622511223198, guid: 976dd1d76de188b489d0dc63bd4839b9, type: 3}
+  - {fileID: 2118849622511223198, guid: eb4535aa684d3e24688fd792180469a9, type: 3}
   - {fileID: 2118849622511223198, guid: f6e6c086a5389d34eabc70e16d43b8e8, type: 3}
   - {fileID: 2118849622511223198, guid: f16fb0c800eaf88479c3672a25d82e84, type: 3}
   - {fileID: 2118849622511223198, guid: b1b2cf13d2360cc44a9a9780b57ce50e, type: 3}

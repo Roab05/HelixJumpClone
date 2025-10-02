@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,6 +15,7 @@ public class Ball : MonoBehaviour
 
     private Rigidbody ballRigidbody;
     private SphereCollider sphereCollider;
+    private bool ballCollidedOnStreak = false;
 
     public event EventHandler<OnCollidedEventArgs> OnCollided;
     public class OnCollidedEventArgs : EventArgs
@@ -21,7 +23,11 @@ public class Ball : MonoBehaviour
         public Transform ringPlatformTransform;
         public Vector3 collidedPosition;
     }
-    public event EventHandler OnRingPlatformPassed;
+    public event EventHandler<OnRingPlatformPassedEventArgs> OnRingPlatformPassed;
+    public class OnRingPlatformPassedEventArgs : EventArgs
+    {
+        public bool ballCollidedOnStreak;
+    }
     public event EventHandler OnGoalReached;
     public event EventHandler OnDead;
 
@@ -97,6 +103,7 @@ public class Ball : MonoBehaviour
 
         if (StreakManager.Instance.IsStreakActive())
         {
+            ballCollidedOnStreak = true;
             NotifyRingPlatformPassed(collision.collider);
             OnCollided?.Invoke(this, new OnCollidedEventArgs
             {
@@ -107,12 +114,13 @@ public class Ball : MonoBehaviour
             // Ball bounce
             ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
 
-            StreakManager.Instance.DeactivateStreak();
+            StartCoroutine(StreakTimeBuffer());
             
             return;
         }
 
-            // Collide obstacles
+        ballCollidedOnStreak = false;
+        // Collide obstacles
         if (collision.gameObject.CompareTag(RING_PLATFORM_ERROR_TAG))
         {
             OnDead?.Invoke(this, EventArgs.Empty);
@@ -142,16 +150,17 @@ public class Ball : MonoBehaviour
             return;
         }
 
+        ballCollidedOnStreak = false;
         if (other.gameObject.CompareTag(SCORE_TRIGGER_TAG))
         {
             NotifyRingPlatformPassed(other);
             StreakManager.Instance.InscreaseScoreStreak();
         }
-
     }
     private void NotifyRingPlatformPassed(Collider other)
     {
-        OnRingPlatformPassed?.Invoke(this, EventArgs.Empty);
+        OnRingPlatformPassed?.Invoke(this, new OnRingPlatformPassedEventArgs 
+        { ballCollidedOnStreak = ballCollidedOnStreak });
 
         // Notify the RingPlatform that it has been passed
         var ringPlatform = other.GetComponentInParent<RingPlatform>();
@@ -179,10 +188,16 @@ public class Ball : MonoBehaviour
     private void SetBallInitPosition()
     {
         ballRigidbody.position = new Vector3(transform.position.x,
-        (int)RingPlatformPool.Instance.GetRingPlatformStartTransform().position.y + 1,
+        (int)RingPlatformPool.Instance.GetRingPlatformStartTransform().position.y + 2,
         transform.position.z);
 
         if (GameManager.Instance.IsPlaying())
             ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
+    }
+
+    IEnumerator StreakTimeBuffer()
+    {
+        yield return new WaitForSeconds(0.2f);
+        StreakManager.Instance.DeactivateStreak();
     }
 }

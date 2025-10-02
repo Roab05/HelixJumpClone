@@ -32,23 +32,24 @@ public class SoundManager : MonoBehaviour
         Ball.Instance.OnDead += Ball_OnDead;
     }
 
-    private void Ball_OnDead(object sender, System.EventArgs e)
+    private void Ball_OnDead(object sender, EventArgs e)
     {
         PlaySound(audioClipRefsSO.dead);
     }
-    private void Ball_OnGoalReached(object sender, System.EventArgs e)
+    private void Ball_OnGoalReached(object sender, EventArgs e)
     {
         PlaySound(audioClipRefsSO.levelUp);
     }
 
-    private void Ball_OnRingPlatformPassed(object sender, System.EventArgs e)
+    private void Ball_OnRingPlatformPassed(object sender, Ball.OnRingPlatformPassedEventArgs e)
     {
+        if (e.ballCollidedOnStreak)
+            return;
         PlaySound(audioClipRefsSO.tick);
     }
 
     private void Ball_OnCollided(object sender, Ball.OnCollidedEventArgs e)
     {
-        audioSource.Stop();
         PlaySound(audioClipRefsSO.bounce);
     }
 
