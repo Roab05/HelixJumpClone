@@ -89,6 +89,9 @@ public class Ball : MonoBehaviour
 
         var collidedTransform = collision.transform.parent;
 
+        // Ball bounce
+        ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
+
         if (collidedTransform == RingPlatformPool.Instance.GetRingPlatformGoalTransform())
         {
             // goal reached
@@ -111,9 +114,6 @@ public class Ball : MonoBehaviour
                 collidedPosition = collision.contacts[0].point
             });
 
-            // Ball bounce
-            ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
-
             StartCoroutine(StreakTimeBuffer());
             
             return;
@@ -130,9 +130,6 @@ public class Ball : MonoBehaviour
             StreakManager.Instance.DeactivateStreak();
             return;
         }
-
-        // Ball bounce
-        ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
 
         OnCollided?.Invoke(this, new OnCollidedEventArgs
         {
@@ -190,9 +187,6 @@ public class Ball : MonoBehaviour
         ballRigidbody.position = new Vector3(transform.position.x,
         (int)RingPlatformPool.Instance.GetRingPlatformStartTransform().position.y + 2,
         transform.position.z);
-
-        if (GameManager.Instance.IsPlaying())
-            ballRigidbody.linearVelocity = new Vector3(0f, jumpVelocity, 0f);
     }
 
     IEnumerator StreakTimeBuffer()

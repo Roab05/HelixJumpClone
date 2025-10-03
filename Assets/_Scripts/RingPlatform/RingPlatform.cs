@@ -84,7 +84,7 @@ public class RingPlatform : MonoBehaviour
 
     private int GetSpinDir()
     {
-        var rand = Random.Range(1, Mathf.Max(3, 23 - LevelManager.Instance.GetLevel()));
+        var rand = Random.Range(1, Mathf.Max(3, 18 - LevelManager.Instance.GetLevel()));
         if (rand == 2)
             return Random.Range(0, 2) == 0 ? -1 : 1;
         return 0;
